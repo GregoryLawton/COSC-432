@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCA Login</title>
+  <link rel="stylesheet" href="../styles/login.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>OCA</h1>
+      <p>Online Course Assistant</p>
+    </div>
+
+    <div class="form-container" id="loginForm">
+      <h2>Login</h2>
+      <form id="loginFormElement">
+        <div class="form-group">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        <div class="error-message" id="loginError"></div>
+        <button type="submit" class="auth-button">Login</button>
+      </form>
+      <p class="toggle-form">
+        Don't have an account? <a href="#" id="showSignup">Sign up</a>
+      </p>
+    </div>
+
+    <div class="form-container hidden" id="signupForm">
+      <h2>Sign Up</h2>
+      <form id="signupFormElement">
+        <div class="form-group">
+          <label for="signupName">Display Name</label>
+          <input type="text" id="signupName" required>
+        </div>
+        <div class="form-group">
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" required>
+        </div>
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="signupPasswordConfirm">Confirm Password</label>
+          <input type="password" id="signupPasswordConfirm" required minlength="6">
+        </div>
+        <div class="error-message" id="signupError"></div>
+        <button type="submit" class="auth-button">Sign Up</button>
+      </form>
+      <p class="toggle-form">
+        Already have an account? <a href="#" id="showLogin">Login</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  
+  <script src="../common/firebase-config.js"></script>
+  <script src="../common/auth.js"></script>
+
+  <script>
+    checkAuthState().then(user => {
+      if (user) {
+        window.location.href = 'index.html';
+      }
+    });
+
+    document.getElementById('showSignup').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('signupForm').classList.remove('hidden');
+      document.getElementById('loginError').textContent = '';
+    });
+
+    document.getElementById('showLogin').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('signupForm').classList.add('hidden');
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('signupError').textContent = '';
+    });
+
+    document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+
+      const result = await signIn(email, password);
+      
+      if (result.success) {
+        window.location.href = 'index.html';
+      } else {
+        errorDiv.textContent = result.error;
+      }
+    });
+
+    document.getElementById('signupFormElement').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+      const errorDiv = document.getElementById('signupError');
+
+      if (password !== passwordConfirm) {
+        errorDiv.textContent = 'Passwords do not match';
+        return;
+      }
+
+      const result = await signUp(email, password, name);
+      
+      if (result.success) {
+        window.location.href = 'index.html';
+      } else {
+        errorDiv.textContent = result.error;
+      }
+    });
+  </script>
+</body>
+</html>
