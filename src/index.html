@@ -4,25 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OCA Home</title>
+
+  <!--Styles -->
   <link rel="stylesheet" href="../styles/styles.css">
   <link rel="stylesheet" href="../styles/mockOCA.css">
+
+  <!--NavBar-->
   <script defer src="../common/navbar.js"></script>
 </head>
+
 <body>
 
+  <!--Mode Selector-->
   <div class="mode-switch">
     <button id="modeButton">Tutoring Mode</button>
   </div>
 
+  <!--Chatroom Selector-->
   <section class="chatroom">
     <div class="chat-history" id="chatHistory"></div>
+
     <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Type your message..." />
+      <input 
+      type="text" 
+      id="userInput" 
+      placeholder="Type your message..." 
+      autocomplete="off"
+      />
       <button id="sendMessage">Send</button>
     </div>
   </section>
 
   <script>
+    // ---- Cached DOM Elements ----
     const modeButton = document.getElementById("modeButton");
     modeButton.addEventListener("click", function () {
       if (modeButton.textContent === "Tutoring Mode") {
