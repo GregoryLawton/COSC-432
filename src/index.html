@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OCA Home</title>
+
+  <!--Styles -->
   <link rel="stylesheet" href="../styles/styles.css">
   <link rel="stylesheet" href="../styles/mockOCA.css">
   
@@ -13,18 +15,29 @@
   <script src="../common/firebase-config.js"></script>
   <script src="../common/auth.js"></script>
   
+
+  <!--NavBar-->
   <script defer src="../common/navbar.js"></script>
 </head>
+
 <body>
 
+  <!--Mode Selector-->
   <div class="mode-switch">
     <button id="modeButton">Tutoring Mode</button>
   </div>
 
+  <!--Chatroom Selector-->
   <section class="chatroom">
     <div class="chat-history" id="chatHistory"></div>
+
     <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Type your message..." />
+      <input 
+      type="text" 
+      id="userInput" 
+      placeholder="Type your message..." 
+      autocomplete="off"
+      />
       <button id="sendMessage">Send</button>
     </div>
   </section>
@@ -34,6 +47,7 @@
     // This is incase of future implementation which will allow user to actually sign up, as of right now, the login button simply directs the user to the index.html since we are viewing in Live Server (it's not actually published):
     // requireAuth();
 
+    // ---- Cached DOM Element ----
     const modeButton = document.getElementById("modeButton");
     modeButton.addEventListener("click", function () {
       if (modeButton.textContent === "Tutoring Mode") {
